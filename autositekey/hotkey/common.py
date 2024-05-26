@@ -1,6 +1,7 @@
-from automon import Logging
+from automon.log import logger
 
-log = Logging(name='Hotkey', level=Logging.DEBUG)
+log = logger.logging.getLogger(__name__)
+log.setLevel(logger.DEBUG)
 
 
 class Click(object):
@@ -43,8 +44,8 @@ class Hotkey(object):
     """Hotkey class intended to be inherited when used for other sites"""
 
     _actions: [Click or Type]
-    _url: str
-    _test: dict
+    _URL: str
+    _TEST: dict
 
     def __repr__(self):
         return f'{self.hotkey_name}'
@@ -60,12 +61,4 @@ class Hotkey(object):
 
     @property
     def url(self):
-        return self._url
-
-    def logging(
-            self,
-            name: str = None,
-            level: int = Logging.DEBUG,
-            **kwargs
-    ) -> Logging:
-        return Logging(name=name or self.hotkey_name, level=level, **kwargs)
+        return self._URL

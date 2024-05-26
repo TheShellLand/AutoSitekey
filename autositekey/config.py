@@ -1,6 +1,9 @@
-from automon.log import Logging
+from automon import logging
 
-log = Logging(name='AutoSiteKeyConfig', level=Logging.DEBUG)
+from autositekey.hotkey import _ALL_CLASSES
+
+log = logging.getLogger(__name__)
+log.setLevel(level=logging.DEBUG)
 
 
 class AutoSiteKeyConfig(object):
@@ -10,3 +13,6 @@ class AutoSiteKeyConfig(object):
 
     def __repr__(self):
         return f'{self.__dict__}'
+
+    def test(self):
+        return _ALL_CLASSES

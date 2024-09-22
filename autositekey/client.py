@@ -19,10 +19,15 @@ class AutoSiteKeyClient(object):
     def __repr__(self):
         return f'{self.__dict__}'
 
-    async def get(self, url: str):
-        return await self.browser.get(url=url)
+    def get(self, url: str):
+        return self.browser.get(url=url)
 
-    async def run(self, headless: bool = True):
+    def is_ready(self) -> bool:
+        if self.config.is_ready() and self.run():
+            return True
+        return False
+
+    def run(self, headless: bool = True):
         self.browser.config.webdriver_wrapper = ChromeWrapper()
 
         useragent = SeleniumUserAgentBuilder().get_top()
@@ -33,4 +38,4 @@ class AutoSiteKeyClient(object):
         if headless:
             self.browser.config.webdriver_wrapper.in_headless()
 
-        return await self.browser.run()
+        return self.browser.run()

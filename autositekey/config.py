@@ -14,5 +14,10 @@ class AutoSiteKeyConfig(object):
     def __repr__(self):
         return f'{self.__dict__}'
 
+    def is_ready(self) -> bool:
+        if self.test():
+            return True
+        return False
+
     def test(self):
         return _ALL_CLASSES

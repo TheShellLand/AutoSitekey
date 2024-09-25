@@ -39,3 +39,6 @@ class AutoSiteKeyClient(object):
             self.browser.config.webdriver_wrapper.in_headless()
 
         return self.browser.run()
+
+    def test(self):
+        raise NotImplemented

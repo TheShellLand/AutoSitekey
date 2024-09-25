@@ -6,7 +6,7 @@ from autositekey.hotkey.common import (
 
 
 class WellfoundHK(Hotkey):
-    _URL = 'https://www.wellfound.com/jobs'
-    _TEST = {
+    URL = 'https://www.wellfound.com/jobs'
+    TEST = {
 
     }

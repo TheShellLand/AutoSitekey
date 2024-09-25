@@ -6,12 +6,13 @@ from autositekey.hotkey.common import (
 
 
 class GenericHK(Hotkey):
-    _url = 'about:blank'
-    _test = {
+    URL = 'about:blank'
+
+    TEST = {
         Click('/html/body'),
     }
 
-    _actions = [
+    ACTIONS = [
         Click('/html/body'),
         Click('/html/body').xpath('/html/body').when('/html/body'),
         Type('hello').when('/html/body'),

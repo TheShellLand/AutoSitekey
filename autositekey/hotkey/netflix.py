@@ -6,7 +6,7 @@ from .common import (
 
 
 class NetflixHK(Hotkey):
-    _URL = 'https://jobs.netflix.com/jobs/'
-    _TEST = {
+    URL = 'https://jobs.netflix.com/jobs/'
+    TEST = {
 
     }

@@ -1,5 +1,7 @@
 from automon.log import logger
 
+from autositekey import AutoSiteKeyClient
+
 log = logger.logging.getLogger(__name__)
 log.setLevel(logger.DEBUG)
 
@@ -40,12 +42,12 @@ class Type(object):
         return self
 
 
-class Hotkey(object):
+class Hotkey(AutoSiteKeyClient):
     """Hotkey class intended to be inherited when used for other sites"""
 
-    _actions: [Click or Type]
-    _URL: str
-    _TEST: dict
+    URL: str
+    TEST: dict
+    ACTIONS: [Click or Type]
 
     def __repr__(self):
         return f'{self.hotkey_name}'
@@ -57,8 +59,8 @@ class Hotkey(object):
     @property
     def actions(self) -> [Click or Type]:
         """list of Click or Type actions"""
-        return self._actions
+        return self.ACTIONS
 
     @property
     def url(self):
-        return self._URL
+        return self.URL

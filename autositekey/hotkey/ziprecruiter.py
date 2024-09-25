@@ -6,4 +6,4 @@ from autositekey.hotkey.common import (
 
 
 class ZipRecruiterHK(Hotkey):
-    _URL = 'https://www.ziprecruiter.com'
+    URL = 'https://www.ziprecruiter.com'

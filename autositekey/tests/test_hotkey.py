@@ -7,8 +7,8 @@ class MyTestCase(unittest.TestCase):
     def test(self):
         test = AutoSiteKeyClient()
 
-        if test.run(headless=False):
-            pass
+        if test.is_ready():
+            test.run(headless=False)
 
 
 if __name__ == '__main__':

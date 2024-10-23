@@ -1,8 +1,4 @@
-from autositekey.hotkey.common import (
-    Hotkey,
-    Click,
-    Type
-)
+from autositekey import Hotkey, Click, Type
 
 
 class ZipRecruiterHK(Hotkey):

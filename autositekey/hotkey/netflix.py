@@ -1,8 +1,5 @@
-from .common import (
-    Hotkey,
-    Click,
-    Type
-)
+from autositekey import Hotkey, Click, Type
+
 
 
 class NetflixHK(Hotkey):

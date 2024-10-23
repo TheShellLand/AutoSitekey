@@ -2,13 +2,13 @@ from autositekey import Hotkey, Click, Type
 
 
 class GenericHK(Hotkey):
-    URL = 'about:blank'
+    _URL = 'about:blank'
 
-    TEST = {
+    _TEST = {
         Click('/html/body'),
     }
 
-    ACTIONS = [
+    _ACTIONS = [
         Click('/html/body'),
         Click('/html/body').xpath('/html/body').when('/html/body'),
         Type('hello').when('/html/body'),

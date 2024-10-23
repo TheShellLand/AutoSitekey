@@ -86,8 +86,8 @@ class Type(object):
 class Hotkey(AutoSiteKeyClient):
     """Hotkey class intended to be inherited when used for other sites"""
 
-    _actions: [Click or Type]
     _URL: str
+    _ACTIONS: [Click or Type]
     _TEST: dict
 
     def __init__(self):
@@ -96,14 +96,13 @@ class Hotkey(AutoSiteKeyClient):
     def __repr__(self):
         return f'{self.hotkey_name}'
 
-    @property
     def hotkey_name(self):
         return f'{type(self).__name__}'
 
     @property
     def actions(self) -> [Click or Type]:
         """list of Click or Type actions"""
-        return self._actions
+        return self._ACTIONS
 
     @property
     def url(self):

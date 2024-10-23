@@ -1,12 +1,8 @@
-from autositekey.hotkey.common import (
-    Hotkey,
-    Click,
-    Type
-)
+from autositekey import Hotkey, Click, Type
 
 
 class WellfoundHK(Hotkey):
-    URL = 'https://www.wellfound.com/jobs'
-    TEST = {
+    _URL = 'https://www.wellfound.com/jobs'
+    _TEST = {
 
     }

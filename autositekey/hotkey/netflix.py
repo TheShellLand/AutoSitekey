@@ -1,12 +1,9 @@
-from .common import (
-    Hotkey,
-    Click,
-    Type
-)
+from autositekey import Hotkey, Click, Type
+
 
 
 class NetflixHK(Hotkey):
-    URL = 'https://jobs.netflix.com/jobs/'
-    TEST = {
+    _URL = 'https://jobs.netflix.com/jobs/'
+    _TEST = {
 
     }

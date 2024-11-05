@@ -34,13 +34,14 @@ class AutoSiteKeyClient(object):
         try:
             self.browser.config.webdriver_wrapper = ChromeWrapper()
 
-            useragent = SeleniumUserAgentBuilder().get_top()
-            self.browser.config.webdriver_wrapper.set_user_agent(
-                useragent
-            )
+            self.browser.config.webdriver_wrapper.enable_antibot_detection()
+            self.browser.config.webdriver_wrapper.set_logging_level(level='DEBUG')
 
             if headless:
                 self.browser.config.webdriver_wrapper.in_headless()
+
+            if enable_logging:
+                self.browser.config.webdriver_wrapper.enable_logging()
 
             return self.browser.run()
         except Exception as error:

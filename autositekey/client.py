@@ -50,19 +50,18 @@ class AutoSiteKeyClient(object):
 class Click(object):
     """Object holds what to click. Optional: 'when' conditions"""
 
-    def __init__(self, xpath: str):
-        self._xpath = [xpath]
-        self._when = []
+    def __init__(self, element):
+        self._element = element
 
-    def when(self, xpath: str):
-        """xpath to click in browser"""
-        self._when.append(xpath)
-        return self
+    @property
+    def element(self):
+        return self._element
 
-    def xpath(self, xpath: str):
-        """xpath match for condition to be True"""
-        self._xpath.append(xpath)
-        return self
+    def click(self):
+        try:
+            return self.element.click()
+        except Exception as error:
+            raise Exception(f'click :: error :: {error}')
 
 
 class Type(object):

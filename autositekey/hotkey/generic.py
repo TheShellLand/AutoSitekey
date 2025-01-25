@@ -2,7 +2,7 @@ from autositekey import Hotkey, Click, Type
 
 
 class GenericHK(Hotkey):
-    _URL = 'about:blank'
+    _URL = r'https://.*'
 
     _TEST = {
         Click('/html/body'),

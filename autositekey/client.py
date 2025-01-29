@@ -116,7 +116,7 @@ class AutoSiteKeyClient(object):
 
         # check if selenium Element
         if type(element) == selenium.webdriver.remote.webelement.WebElement:
-            result = element.click()
+            result = self.browser.action_click(element=element)
             log.debug(f'AutoSiteKeyClient :: PLAY :: CLICK :: ELEMENT :: {result=}')
             log.info(f'AutoSiteKeyClient :: PLAY :: CLICK :: ELEMENT :: DONE')
             return result or True
@@ -138,13 +138,13 @@ class AutoSiteKeyClient(object):
 
                 if re.compile(_regex).match(element):
                     _element = self.browser.find_xpath(value=element)
-                    result = _element.click()
+                    result = self.browser.action_click(element=_element)
                     log.debug(f'AutoSiteKeyClient :: PLAY :: CLICK :: XPATH :: {result=}')
                     log.info(f'AutoSiteKeyClient :: PLAY :: CLICK :: XPATH :: DONE')
                     return result or True
 
         # check if str
-        else:
+        if type(element) == str:
 
             _elements = self.browser.find_elements_with_beautifulsoup(match=element)
 
@@ -154,13 +154,19 @@ class AutoSiteKeyClient(object):
                 log.debug(f'AutoSiteKeyClient :: PLAY :: CLICK :: SEARCH :: {len(_elements)} ELEMENTS')
 
                 for _element in _elements:
+                    # pop from end of list
+                    _element = _elements.pop(-1)
+
                     _match = re.compile(element).match(_element.text)
 
                     if _match:
-                        result = _element.click()
-                        log.debug(f'AutoSiteKeyClient :: PLAY :: CLICK :: SEARCH :: {result=}')
-                        log.info(f'AutoSiteKeyClient :: PLAY :: CLICK :: SEARCH :: DONE')
-                        return result or True
+                        try:
+                            result = self.browser.action_click(element=_element)
+                            log.debug(f'AutoSiteKeyClient :: PLAY :: CLICK :: SEARCH :: {result=}')
+                            log.info(f'AutoSiteKeyClient :: PLAY :: CLICK :: SEARCH :: DONE')
+                            return result or True
+                        except Exception as error:
+                            log.error(f'AutoSiteKeyClient :: PLAY :: CLICK :: SEARCH :: {error=}')
 
         raise Exception(f'AutoSiteKeyClient :: PLAY :: CLICK :: ERROR :: NOT FOUND :: {element=}')
 
@@ -234,14 +240,19 @@ class Hotkey(AutoSiteKeyClient):
         super().__init__()
 
     def __repr__(self):
-        return f'{self.hotkey_name}'
+        return (
+            f'{type(self).__name__} :: '
+            f'{len(self.ACTIONS)} ACTIONS :: '
+            f'{len(self.TEST)} TESTS :: '
+            f'{self.URL or 'NO URL'}'
+        )
 
     @property
     def ACTIONS(self) -> [Click or Type]:
         """list of Click or Type actions"""
         return self._ACTIONS
 
-    def hotkey_name(self):
+    def _hotkey_name(self):
         return f'{type(self).__name__}'
 
     def _re_search(self, pattern: str, search: str):

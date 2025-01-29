@@ -32,10 +32,16 @@ class AutoSiteKeyClient(object):
     def __repr__(self):
         return f'{self.__dict__}'
 
-    def get(self, url: str):
+    def get(self, url: str, delay_on_load: int = None):
         """Open url in browser"""
 
-        return self.browser.get(url=url)
+        if delay_on_load:
+            result = self.browser.get(url=url)
+            automon.Sleeper.seconds(seconds=delay_on_load)
+        else:
+            result = self.browser.get(url=url)
+
+        return result
 
     def is_ready(self, **kwargs) -> bool:
         """Check if client is ready"""

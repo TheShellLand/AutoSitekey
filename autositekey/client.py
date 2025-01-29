@@ -22,15 +22,14 @@ class AutoSiteKeyClient(object):
     """A way to configure website behaviors to auto hotkey to anything"""
 
     _URL: str = None
-    _ACTIONS: [Actions or Click or Type or OpenUrl] = None
-    _TEST: [Actions or Click or Type] = None
+    _ACTIONS: [Actions or Click or Type or OpenUrl] = []
+    _TEST: [Actions or Click or Type] = []
 
     def __init__(self, **kwargs):
         self.browser = automon.integrations.seleniumWrapper.SeleniumBrowser()
         self.config = AutoSiteKeyConfig(**kwargs)
 
     def __repr__(self):
-        return f'AAAA'
         return f'{self.__dict__}'
 
     def get(self, url: str):

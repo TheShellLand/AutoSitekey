@@ -7,18 +7,14 @@ from autositekey import *
 class MyTestCase(unittest.TestCase):
 
     def test(self):
-
         TEST = Hotkey()
+        TEST._TEST = Click('Phone number, username, or email')
 
         TEST.run(headless=True)
 
-        TEST.get('https://mapgenie.io/tarkov/maps/customs')
+        TEST.get('https://www.instagram.com/', delay_on_load=3)
 
-        TEST._TEST = Click(
-            '//*[@id="left-sidebar"]/div[2]/div[3]/a[2]'
-        )
-
-        TEST.test()
+        self.assertTrue(TEST.test())
 
         pass
 

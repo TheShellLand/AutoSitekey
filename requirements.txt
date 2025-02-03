@@ -1,7 +1,11 @@
 pip
 pytest
 #automonisaur
-git+https://github.com/TheShellLand/automonisaur.git
+git+https://github.com/TheShellLand/automonisaur.git@auto-site-hotkey
+requests>=2.26.0
+pandas
+
+# selenium
 selenium>=3.141.0
 beautifulsoup4>=4.10.0
-requests>=2.26.0
+lxml>=4.7.1

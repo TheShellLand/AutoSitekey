@@ -1,0 +1,121 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ '*' ]
+  pull_request:
+    branches: [ '*' ]
+
+
+jobs:
+
+  unittest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install python packages
+        run: bash install-requirements.sh
+      - name: install chrome and chromedriver
+        run: /bin/bash docker/install-chromedriver.sh
+      - name: Run tests
+        run: pytest
+
+
+  docker-build:
+    needs: unittest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build docker
+        run: docker build . --tag ${{ env.IMAGE_NAME }}
+
+
+  docker-test:
+    needs: docker-build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build docker
+        run: docker build . --tag ${{ env.IMAGE_NAME }}
+      - name: Run tests in docker
+        run: docker run ${{ env.IMAGE_NAME }} pytest
+#        run: >
+#          docker run
+#          -e PKG=${{ secrets.PKG }}
+#          -e PYPI=${{ secrets.PYPI }}
+#          -e TWINE_REPOSITORY=${{ secrets.TWINE_REPOSITORY }}
+#          -e TWINE_REPOSITORY_URL=${{ secrets.TWINE_REPOSITORY_URL }}
+#          -e TWINE_USERNAME=${{ secrets.TWINE_USERNAME }}
+#          -e TWINE_PASSWORD=${{ secrets.TWINE_PASSWORD }}
+#          ${{ env.IMAGE_NAME }} test
+
+
+  publish-docker:
+    needs: docker-test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # https://docs.docker.com/build/ci/github-actions/multi-platform/
+      - name: Set up Docker
+        uses: docker/setup-docker-action@v4
+        with:
+          daemon-config: |
+            {
+              "debug": true,
+              "features": {
+                "containerd-snapshotter": true
+              }
+            }  
+
+      # Login against a Docker registry except on PR
+      # https://github.com/docker/login-action
+      - name: Log into registry ${{ env.REGISTRY }}
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Extract metadata (tags, labels) for Docker
+      # https://github.com/docker/metadata-action
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Build and push Docker image with Buildx (don't push on PR)
+      # https://github.com/docker/build-push-action
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          load: true
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

@@ -13,6 +13,7 @@ RUN apt update && \
     apt clean && \
     rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
 RUN pip install --force --upgrade --break-system-packages --no-cache-dir -r requirements.txt
+RUN ln -s /opt/google/chrome/chrome /usr/local/bin/chrome
 
 
 FROM builder AS runner

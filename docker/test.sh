@@ -12,4 +12,4 @@ docker run \
   --platform linux/x86_64 \
   -p 4444:4444 \
   $DOCKERNAME \
-  pytest "$@"
+  pytest --log-cli-level error "$@"

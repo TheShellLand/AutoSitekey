@@ -20,7 +20,7 @@ cd /opt && \
 wget -O chrome.zip https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chrome-linux64.zip && \
 unzip chrome.zip && \
 rm -v chrome.zip && \
-ln -s "$(pwd)"/*/chrome /usr/local/sbin/chrome && \
+ln -s "$(pwd)"/*/chrome /usr/local/bin/chrome && \
 chrome --version
 
 # install chromedriver
@@ -28,5 +28,5 @@ chrome --version
 cd /opt && \
 wget -q -O chromedriver.zip https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chromedriver-linux64.zip && \
 unzip chromedriver.zip && \
-ln -sf "$(pwd)"/*/chromedriver /usr/local/sbin/chromedriver && \
+ln -sf "$(pwd)"/*/chromedriver /usr/local/bin/chromedriver && \
 chromedriver -v

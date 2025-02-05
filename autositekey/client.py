@@ -1,4 +1,6 @@
 import re
+import traceback
+
 import automon
 import selenium
 
@@ -210,6 +212,7 @@ class AutoSiteKeyClient(object):
             log.info(f'AutoSiteKeyClient :: RUN :: DONE')
             return run or True
         except Exception as error:
+            traceback.print_exc()
             raise Exception(f'AutoSiteKeyClient :: RUN :: ERROR :: {error=}')
 
         return False

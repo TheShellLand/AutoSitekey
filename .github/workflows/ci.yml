@@ -58,7 +58,7 @@ jobs:
       - name: Build docker
         run: docker build . --tag ${{ env.IMAGE_NAME }}
       - name: Run tests in docker
-        run: docker run ${{ env.IMAGE_NAME }} pytest
+        run: docker run ${{ env.IMAGE_NAME }} pytest --log-cli-level debug
 #        run: >
 #          docker run
 #          -e PKG=${{ secrets.PKG }}

@@ -22,7 +22,7 @@ jobs:
       - name: Install python packages
         run: bash install-requirements.sh
       - name: install chrome and chromedriver
-        run: /bin/bash docker/install-chromedriver.sh
+        run: sudo /bin/bash docker/install-chromedriver.sh
       - name: Run tests
         run: pytest
 

@@ -5,6 +5,7 @@ USER root
 WORKDIR /tmp
 
 COPY requirements.txt .
+COPY docker/install-chromedriver.sh .
 RUN apt update && \
     apt install -y wget vim git && \
     apt remove -y python3-pip && \
@@ -14,6 +15,7 @@ RUN apt update && \
     rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
 RUN pip install --force --upgrade --break-system-packages --no-cache-dir -r requirements.txt
 RUN ln -s /opt/google/chrome/chrome /usr/local/bin/chrome
+RUN ln -s /opt/google/chrome/google-chrome /usr/local/bin/google-chrome
 
 
 FROM builder AS runner

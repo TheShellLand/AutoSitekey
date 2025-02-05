@@ -244,7 +244,7 @@ class Hotkey(AutoSiteKeyClient):
             f'{type(self).__name__} :: '
             f'{len(self.ACTIONS)} ACTIONS :: '
             f'{len(self.TEST)} TESTS :: '
-            f'{self.URL or 'NO URL'}'
+            f'{self.URL or "NO URL"}'
         )
 
     @property

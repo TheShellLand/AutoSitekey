@@ -191,18 +191,19 @@ class AutoSiteKeyClient(object):
     def run(self, headless: bool = True, enable_logging: bool = True):
         """Run browser"""
 
+        self.browser.config.webdriver_wrapper = automon.integrations.seleniumWrapper.webdriver_chrome.ChromeWrapper()
+
+        self.browser.config.webdriver_wrapper.enable_antibot_detection()
+        self.browser.config.webdriver_wrapper.set_user_data_dir()
+        self.browser.config.webdriver_wrapper.set_logging_level(level='DEBUG')
+
+        if headless:
+            self.browser.config.webdriver_wrapper.in_headless_sandbox_disabled()
+
+        if enable_logging:
+            self.browser.config.webdriver_wrapper.enable_logging()
+
         try:
-            self.browser.config.webdriver_wrapper = automon.integrations.seleniumWrapper.webdriver_chrome.ChromeWrapper()
-
-            self.browser.config.webdriver_wrapper.enable_antibot_detection()
-            self.browser.config.webdriver_wrapper.set_logging_level(level='DEBUG')
-
-            if headless:
-                self.browser.config.webdriver_wrapper.in_headless()
-
-            if enable_logging:
-                self.browser.config.webdriver_wrapper.enable_logging()
-
             run = self.browser.run()
 
             log.debug(f'AutoSiteKeyClient :: RUN :: {run=}')

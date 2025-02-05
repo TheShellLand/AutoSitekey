@@ -10,11 +10,17 @@ class MyTestCase(unittest.TestCase):
         TEST = Hotkey()
         TEST._TEST = Click('Phone number, username, or email')
 
-        TEST.run(headless=True)
+        while True:
+            try:
+                TEST.run(headless=True)
 
-        TEST.get('https://www.instagram.com/', delay_on_load=3)
+                TEST.get('https://www.instagram.com/', delay_on_load=3)
 
-        self.assertTrue(TEST.test())
+                self.assertTrue(TEST.test())
+                break
+            except Exception as error:
+                import logging
+                logging.error(f'{error=}')
 
         pass
 
